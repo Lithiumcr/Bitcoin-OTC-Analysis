@@ -3,8 +3,46 @@ import numpy as np
 from scipy.sparse import csr_matrix
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from implicit.als import AlternatingLeastSquares
+import networkx as nx
 
 data = pd.read_csv('soc-sign-bitcoinotc.csv', header=None, names=['Source', 'Target', 'Weight', 'Date'])
+
+def signed_weighted_clustering_coefficient(G):
+    clustering_coeffs = {}
+    for node in G.nodes():
+        neighbors = list(G.neighbors(node))
+        if len(neighbors) < 2:
+            clustering_coeffs[node] = 0.0
+            continue
+        
+        triangles = 0
+        total_triplets = 0
+        
+        for i in range(len(neighbors)):
+            for j in range(i + 1, len(neighbors)):
+                u, v = neighbors[i], neighbors[j]
+                if G.has_edge(u, v):
+                    total_triplets += 1
+                    if (G.has_edge(u, node) and G.has_edge(node, v) and G.has_edge(u, v)) and (G[u][node]['weight'] * G[node][v]['weight'] * G[u][v]['weight']) > 0:
+                        triangles += 1
+        
+        if total_triplets == 0:
+            clustering_coeffs[node] = 0.0
+        else:
+            clustering_coeffs[node] = triangles / total_triplets
+    
+    return clustering_coeffs
+
+# create a directed graph
+G = nx.DiGraph()
+for row in data.itertuples():
+    G.add_edge(row.Source, row.Target, weight=row.Weight)
+
+# calculate the directed signed weighted clustering coefficient
+clustering_coeffs = signed_weighted_clustering_coefficient(G)
+average_clustering_coeff = np.mean(list(clustering_coeffs.values()))
+
+print(f'Average Weighted Signed Clustering Coefficient: {average_clustering_coeff}')
 
 # ground truth: positive links are those with a positive weight, negative links are those with a negative weight
 positive_links = data[data['Weight'] > 0]
@@ -27,9 +65,9 @@ train_matrix = csr_matrix(train_matrix).T
 from sklearn.model_selection import ParameterGrid
 
 param_grid = {
-    'factors': [10, 50, 100],
-    'regularization': [0.01, 0.1, 1],
-    'iterations': [10, 15, 20]
+    'factors': [50],# [10, 50, 100],
+    'regularization': [0.01], # [0.01, 0.1, 1],
+    'iterations': [100] # [50, 100]
 }
 
 def predict_sign_als(model, user, item):
