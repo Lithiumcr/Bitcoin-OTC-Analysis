@@ -1,12 +1,14 @@
 import pandas as pd
 import numpy as np
 from scipy.sparse import csr_matrix
-from sklearn.metrics import accuracy_score, precision_score, recall_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, mean_squared_error
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split, ParameterGrid
 from implicit.als import AlternatingLeastSquares
 import networkx as nx
 import matplotlib.pyplot as plt
 
-
+# Load data
 data = pd.read_csv('soc-sign-bitcoinotc.csv', header=None, names=['Source', 'Target', 'Weight', 'Date'])
 
 def signed_weighted_clustering_coefficient(G):
@@ -36,74 +38,85 @@ def signed_weighted_clustering_coefficient(G):
     return clustering_coeffs
 
 def calculate_coefficients(G):
-    common_neighbors = {}
-    jaccard_coefficient = {}
-    preferential_attachment = {}
-    adamic_adar = {}
-    resource_allocation = {}
-    local_clustering = {}
-    
+    CNo_o, CNo_i, CNi_o, CNi_i = {}, {}, {}, {}
+    JCo_o, JCo_i, JCi_o, JCi_i = {}, {}, {}, {}
+    PAo_o, PAo_i, PAi_o, PAi_i = {}, {}, {}, {}
+    RA, AA, CC = {}, {}, {}
+
     for idx, edge in enumerate(G.edges()):
         if idx % 1000 == 0:
             print(f"Processed {idx} edges for coefficients calculation.")
         u, v = edge
         
-        predecessors_u = set(G.predecessors(u))
-        predecessors_v = set(G.predecessors(v))
+        out_neighbors_u = set(G.successors(u))
+        in_neighbors_u = set(G.predecessors(u))
+        out_neighbors_v = set(G.successors(v))
+        in_neighbors_v = set(G.predecessors(v))
         
-        common_neighbors[edge] = len(predecessors_u & predecessors_v)
+        # CN
+        CNo_o[edge] = len(out_neighbors_u & out_neighbors_v)
+        CNo_i[edge] = len(out_neighbors_u & in_neighbors_v)
+        CNi_o[edge] = len(in_neighbors_u & out_neighbors_v)
+        CNi_i[edge] = len(in_neighbors_u & in_neighbors_v)
         
-        union_neighbors = len(predecessors_u | predecessors_v)
-        jaccard_coefficient[edge] = common_neighbors[edge] / union_neighbors if union_neighbors != 0 else 0
+        # JC
+        union_out_o = len(out_neighbors_u | out_neighbors_v)
+        union_out_i = len(out_neighbors_u | in_neighbors_v)
+        union_in_o = len(in_neighbors_u | out_neighbors_v)
+        union_in_i = len(in_neighbors_u | in_neighbors_v)
         
-        preferential_attachment[edge] = len(predecessors_u) * len(predecessors_v)
+        JCo_o[edge] = CNo_o[edge] / union_out_o if union_out_o != 0 else 0
+        JCo_i[edge] = CNo_i[edge] / union_out_i if union_out_i != 0 else 0
+        JCi_o[edge] = CNi_o[edge] / union_in_o if union_in_o != 0 else 0
+        JCi_i[edge] = CNi_i[edge] / union_in_i if union_in_i != 0 else 0
         
-        adamic_adar[edge] = sum(1 / np.log(len(list(G.successors(x)))) for x in predecessors_u & predecessors_v if len(list(G.successors(x))) > 1)
+        # PA
+        PAo_o[edge] = len(out_neighbors_u) * len(out_neighbors_v)
+        PAo_i[edge] = len(out_neighbors_u) * len(in_neighbors_v)
+        PAi_o[edge] = len(in_neighbors_u) * len(out_neighbors_v)
+        PAi_i[edge] = len(in_neighbors_u) * len(in_neighbors_v)
         
-        resource_allocation[edge] = sum(1 / len(list(G.successors(x))) for x in predecessors_u & predecessors_v if len(list(G.successors(x))) > 0)
-        
-        local_clustering[u] = nx.clustering(G, u, weight='weight')
-        local_clustering[v] = nx.clustering(G, v, weight='weight')
+        # RA, AA, CC
+        common_neighbors = out_neighbors_u & out_neighbors_v
+        RA[edge] = sum(1 / len(list(G.successors(x))) for x in common_neighbors if len(list(G.successors(x))) > 0)
+        AA[edge] = sum(1 / np.log(len(list(G.successors(x)))) for x in common_neighbors if len(list(G.successors(x))) > 1)
+        CC[u] = nx.clustering(G, u, weight='weight')
+        CC[v] = nx.clustering(G, v, weight='weight')
     
-    return common_neighbors, jaccard_coefficient, preferential_attachment, adamic_adar, resource_allocation, local_clustering
+    return (CNo_o, CNo_i, CNi_o, CNi_i), (JCo_o, JCo_i, JCi_o, JCi_i), (PAo_o, PAo_i, PAi_o, PAi_i), RA, AA, CC
 
-# create a directed graph
+# Create a directed graph
 G = nx.DiGraph()
 for row in data.itertuples():
     G.add_edge(row.Source, row.Target, weight=row.Weight)
 print("Graph construction completed.")
 
-# calculate the directed signed weighted clustering coefficient and other coefficients
+# Calculate coefficients
 clustering_coeffs = signed_weighted_clustering_coefficient(G)
 average_clustering_coeff = np.mean(list(clustering_coeffs.values()))
-common_neighbors, jaccard_coefficient, preferential_attachment, adamic_adar, resource_allocation, local_clustering = calculate_coefficients(G)
+
+common_neighbors, jaccard_coefficient, preferential_attachment, RA, AA, CC = calculate_coefficients(G)
 
 print(f'Average Weighted Signed Clustering Coefficient: {average_clustering_coeff}')
 
-# ground truth: positive links are those with a positive weight, negative links are those with a negative weight
+# Symbol Prediction Task
 positive_links = data[data['Weight'] > 0]
 negative_links = data[data['Weight'] < 0]
 
-# create the training matrix
-# Note: Implicit library assumes the input is user-item interactions matrix,
-#       here we treat the 'Source' as users and 'Target' as items for simplicity.
+# Create the training matrix
 num_users = data['Source'].max() + 1
 num_items = data['Target'].max() + 1
 train_matrix = np.zeros((num_users, num_items))
 
-# fill in the training matrix
 for row in data.itertuples():
     train_matrix[row.Source, row.Target] = row.Weight
 
-# change the train_matrix to csr_matrix format and transpose it for ALS expects item-user matrix
 train_matrix = csr_matrix(train_matrix).T
 
-from sklearn.model_selection import ParameterGrid
-
 param_grid = {
-    'factors': [50],# [10, 50, 100],
-    'regularization': [0.01], # [0.01, 0.1, 1],
-    'iterations': [100] # [50, 100]
+    'factors': [50],  # [10, 50, 100],
+    'regularization': [0.01],  # [0.01, 0.1, 1],
+    'iterations': [100]  # [50, 100]
 }
 
 def predict_sign_als(model, user, item):
@@ -121,7 +134,6 @@ def generate_predictions(model, data):
         predictions.append(predicted_sign)
     return true_labels, predictions
 
-# grid search for the best parameters
 best_accuracy = 0
 best_precision = 0
 best_recall = 0
@@ -145,8 +157,36 @@ print(f'Best Precision: {best_precision}')
 print(f'Best Recall: {best_recall}')
 print(f'Best Parameters: {best_params}')
 print(f'Best Model: {als}')
-# print(f'Best Model User Factors: {als.user_factors}')
-# print(f'Best Model Item Factors: {als.item_factors}')
-# print(f'Best Model User Factors Shape: {als.user_factors.shape}')
-# print(f'Best Model Item Factors Shape: {als.item_factors.shape}')
-print(f'Done!')
+print(f'Done with Symbol Prediction!')
+
+# Weight Prediction Task
+features = []
+labels = []
+
+for edge in G.edges():
+    u, v = edge
+    features.append([
+        common_neighbors[0][edge], common_neighbors[1][edge], common_neighbors[2][edge], common_neighbors[3][edge],
+        jaccard_coefficient[0][edge], jaccard_coefficient[1][edge], jaccard_coefficient[2][edge], jaccard_coefficient[3][edge],
+        preferential_attachment[0][edge], preferential_attachment[1][edge], preferential_attachment[2][edge], preferential_attachment[3][edge],
+        RA[edge], AA[edge], CC[u], CC[v]
+    ])
+    labels.append(abs(G[u][v]['weight']))
+
+X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42)
+
+reg = LinearRegression().fit(X_train, y_train)
+y_pred = reg.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+print(f'Mean Squared Error for Weight Prediction: {mse}')
+
+# Combine Symbol and Weight Predictions
+true_labels, sign_predictions = generate_predictions(als, data)
+
+predicted_weights = reg.predict(features)
+predicted_signed_weights = [sign * weight for sign, weight in zip(sign_predictions, predicted_weights)]
+
+# Evaluate the combined predictions
+original_weights = data['Weight'].values
+combined_mse = mean_squared_error(original_weights, predicted_signed_weights)
+print(f'Combined Mean Squared Error: {combined_mse}')
