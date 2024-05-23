@@ -4,6 +4,8 @@ from scipy.sparse import csr_matrix
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from implicit.als import AlternatingLeastSquares
 import networkx as nx
+import matplotlib.pyplot as plt
+
 
 data = pd.read_csv('soc-sign-bitcoinotc.csv', header=None, names=['Source', 'Target', 'Weight', 'Date'])
 
@@ -33,14 +35,48 @@ def signed_weighted_clustering_coefficient(G):
     
     return clustering_coeffs
 
+def calculate_coefficients(G):
+    common_neighbors = {}
+    jaccard_coefficient = {}
+    preferential_attachment = {}
+    adamic_adar = {}
+    resource_allocation = {}
+    local_clustering = {}
+    
+    for idx, edge in enumerate(G.edges()):
+        if idx % 1000 == 0:
+            print(f"Processed {idx} edges for coefficients calculation.")
+        u, v = edge
+        
+        predecessors_u = set(G.predecessors(u))
+        predecessors_v = set(G.predecessors(v))
+        
+        common_neighbors[edge] = len(predecessors_u & predecessors_v)
+        
+        union_neighbors = len(predecessors_u | predecessors_v)
+        jaccard_coefficient[edge] = common_neighbors[edge] / union_neighbors if union_neighbors != 0 else 0
+        
+        preferential_attachment[edge] = len(predecessors_u) * len(predecessors_v)
+        
+        adamic_adar[edge] = sum(1 / np.log(len(list(G.successors(x)))) for x in predecessors_u & predecessors_v if len(list(G.successors(x))) > 1)
+        
+        resource_allocation[edge] = sum(1 / len(list(G.successors(x))) for x in predecessors_u & predecessors_v if len(list(G.successors(x))) > 0)
+        
+        local_clustering[u] = nx.clustering(G, u, weight='weight')
+        local_clustering[v] = nx.clustering(G, v, weight='weight')
+    
+    return common_neighbors, jaccard_coefficient, preferential_attachment, adamic_adar, resource_allocation, local_clustering
+
 # create a directed graph
 G = nx.DiGraph()
 for row in data.itertuples():
     G.add_edge(row.Source, row.Target, weight=row.Weight)
+print("Graph construction completed.")
 
-# calculate the directed signed weighted clustering coefficient
+# calculate the directed signed weighted clustering coefficient and other coefficients
 clustering_coeffs = signed_weighted_clustering_coefficient(G)
 average_clustering_coeff = np.mean(list(clustering_coeffs.values()))
+common_neighbors, jaccard_coefficient, preferential_attachment, adamic_adar, resource_allocation, local_clustering = calculate_coefficients(G)
 
 print(f'Average Weighted Signed Clustering Coefficient: {average_clustering_coeff}')
 
