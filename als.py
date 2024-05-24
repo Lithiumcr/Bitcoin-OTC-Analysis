@@ -162,7 +162,7 @@ train_matrix = csr_matrix(train_matrix).T
 param_grid = {
     'factors': [50],  # [10, 50, 100],
     'regularization': [0.01],  # [0.01, 0.1, 1],
-    'iterations': [100]  # [50, 100]
+    'iterations': [200]  # [50, 100]
 }
 
 def predict_sign_als(model, user, item):
@@ -223,6 +223,9 @@ for edge in G.edges():
 X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.3, random_state=42)
 reg = LinearRegression().fit(X_train, y_train)
 y_pred = reg.predict(X_test)
+# artificially fine-tune the predictions
+# y_pred = np.where(y_pred == 0, 1, y_pred)
+y_pred = np.where(y_pred > 10, 10, y_pred)
 
 # to compare with the DL method using the same scale into [-1,1]
 mse = mean_squared_error(y_test, y_pred)*0.01
@@ -240,7 +243,7 @@ print(f'Combined Mean Squared Error: {combined_mse}')
 
 # Frequency distribution histograms
 plt.figure()
-plt.hist([y_pred, y_test], bins=30, label=['Predicted (without sign)', 'True'])
+plt.hist([y_pred, y_test], bins=30, range=(0, 10), label=['Predicted (without sign)', 'True'])
 plt.legend(loc='upper right')
 plt.title('Weight Frequency Distribution (Without Sign)')
 plt.xlabel('Weight')
@@ -249,10 +252,21 @@ plt.savefig('weight_freq_without_sign.png')
 plt.close()
 
 plt.figure()
-plt.hist([predicted_signed_weights, data['Weight'].values], bins=30, label=['Predicted (with sign)', 'True'])
+plt.hist([predicted_signed_weights, data['Weight'].values], bins=30, range=(-10, 10), label=['Predicted (with sign)', 'True'])
 plt.legend(loc='upper right')
 plt.title('Weight Frequency Distribution (With Sign)')
 plt.xlabel('Weight')
 plt.ylabel('Frequency')
 plt.savefig('weight_freq_with_sign.png')
+plt.close()
+
+# Scatter plot of true vs predicted values
+plt.figure()
+plt.scatter(data['Weight'].values, predicted_signed_weights, alpha=0.5)
+plt.xlim(-10, 10)
+plt.ylim(-10, 10)
+plt.xlabel('True Values')
+plt.ylabel('Predicted Values')
+plt.title('True vs Predicted Values')
+plt.savefig('scatter_plot.png')
 plt.close()
