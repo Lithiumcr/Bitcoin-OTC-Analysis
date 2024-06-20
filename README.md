@@ -4,11 +4,10 @@
 [![GPLv3 licence](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)](LICENSE)
 
 > Jun 17 at 1:34pm
-> Good report! The results part could have been improved. It could have been nice to include some more evaluation metrics other than MSE to compare your methods + use confidence intervals (table 3)
-> - Rémi Bourgerie (teaching assistant)
+> - Good report! The results part could have been improved. It could have been nice to include some more evaluation metrics other than MSE to compare your methods + use confidence intervals (table 3) - Rémi Bourgerie (teaching assistant)
+> 
 > Jun 17 at 1:34pm
-> Since it is visible from the "Individual Contribution" section that you were the main coordinator and were overseeing all parts of this project, we will give you maximum points for this effort.
-> - Sarunas Girdzijauskas (lecturer, examiner)
+> - Since it is visible from the "Individual Contribution" section that you were the main coordinator and were overseeing all parts of this project, we will give you maximum points for this effort. - Sarunas Girdzijauskas (lecturer, examiner)
 
 This project aims to analyze the Bitcoin OTC trust network using data mining techniques. The study compares the performance of classical linear regression methods, such as Alternating Least Squares (ALS), with advanced machine learning models, specifically deep learning methods. The dataset used is publicly available from the Stanford Network Analysis Project (SNAP).
 
