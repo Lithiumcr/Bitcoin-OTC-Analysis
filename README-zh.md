@@ -1,9 +1,7 @@
-### README-zh.md
+# 比特币 OTC 信任网络分析
 
 [![Languages](https://img.shields.io/badge/English-en-004791.svg)](README.md)
-[![GPLv3 license](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)](LICENCE.txt)
-
-# 比特币 OTC 信任网络分析
+[![GPLv3 licence](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)](LICENSE)
 
 该项目旨在使用数据挖掘技术分析比特币 OTC 信任网络。研究比较了经典线性回归方法（如交替最小二乘法（ALS））与先进机器学习模型（特别是深度学习方法）的性能。使用的数据集来自公开可用的斯坦福网络分析项目（SNAP）。
 
