@@ -33,7 +33,7 @@ The results indicate that while deep learning models achieve higher accuracy, th
 
 ### Alternating Least Squares (ALS)
 
-ALS is a classical linear regression method used for matrix factorization in recommendation systems. It projects users and items into a k-dimensional space, approximating the ratings through inner product of latent feature vectors.
+ALS is a classical linear regression method used for matrix factorization in recommendation systems. It projects users and items into a k-dimensional space, approximating the ratings through inner product of latent feature vectors. For details on theoretical derivation, program implementation, and result analysis, please refer to the project report under the deliverables directory.
 
 ### Deep Learning Models
 
@@ -50,10 +50,10 @@ The study demonstrates that deep learning models outperform ALS in terms of pred
 
 ## Individual Contributions
 
-- **Changrong Li**: Project coordination, ALS work (literature research, theoretical derivation, development, deployment, result analysis, performance optimisation), report writing (full-text quality control, title, data processing, ALS chapters, appendix).
-- **Manushree Tyagi**: Initial proposal frame, ALS work with Changrong Li (development of 3 metrics), summary generation.
-- **Zhiqiang Yu**: Theoretical research, literature review, validation of deep learning methods.
-- **Ziyun Pan**: Application of deep learning methods, data preprocessing, and dataset splitting.
+- **Changrong Li (李昶融)**: Project coordination, ALS work (literature research, theoretical derivation, development, deployment, result analysis, performance optimisation), report writing (full-text quality control, title, data processing, ALS chapters, appendix).
+- **Mānūśrī Tyāgī (मांनुश्री त्यागी)**: Initial proposal frame, ALS work with Changrong Li (development of 3 metrics), summary generation.
+- **Zhiqiang Yu (余志强)**: Theoretical research, literature review, validation of deep learning methods.
+- **Ziyun Pan (潘梓韫)**: Application of deep learning methods, data preprocessing, and dataset splitting.
 
 ## Future Work
 
