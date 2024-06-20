@@ -1,6 +1,7 @@
 # Bitcoin OTC Trust Network Analysis
 
-[![Languages](https://img.shields.io/badge/%E4%B8%AD%E6%96%87-zh-C8161E.svg)](README-zh.md) ![GPLv3 license](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)
+[![Languages](https://img.shields.io/badge/%E4%B8%AD%E6%96%87-zh-C8161E.svg)](README-zh.md) 
+[![GPLv3 licence](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)](LICENSE)
 
 This project aims to analyze the Bitcoin OTC trust network using data mining techniques. The study compares the performance of classical linear regression methods, such as Alternating Least Squares (ALS), with advanced machine learning models, specifically deep learning methods. The dataset used is publicly available from the Stanford Network Analysis Project (SNAP).
 
@@ -33,7 +34,7 @@ The results indicate that while deep learning models achieve higher accuracy, th
 
 ### Alternating Least Squares (ALS)
 
-ALS is a classical linear regression method used for matrix factorization in recommendation systems. It projects users and items into a k-dimensional space, approximating the ratings through inner product of latent feature vectors. For details on theoretical derivation, program implementation, and result analysis, please refer to the project report under the deliverables directory.
+ALS is a classical linear regression method used for matrix factorization in recommendation systems. It projects users and items into a k-dimensional space, approximating the ratings through inner product of latent feature vectors. For details on theoretical derivation, program implementation, and result analysis, please refer to the [project report](./deliverables/ID2211_Project_Group5.pdf) under the deliverables directory.
 
 ### Deep Learning Models
 
@@ -58,6 +59,16 @@ The study demonstrates that deep learning models outperform ALS in terms of pred
 ## Future Work
 
 Future research will address data imbalances using techniques like SMOTE or GANs, enhance model scalability, and perform a cost-benefit analysis for practical applications.
+
+## Evaluation
+
+> - Jun 17 at 1:34pm
+> 
+> Good report! The results part could have been improved. It could have been nice to include some more evaluation metrics other than MSE to compare your methods + use confidence intervals (table 3) - Rémi Bourgerie (teaching assistant)
+> 
+> - Jun 17 at 1:34pm
+> 
+> Since it is visible from the "Individual Contribution" section that you were the main coordinator and were overseeing all parts of this project, we will give you maximum points for this effort. - Sarunas Girdzijauskas (lecturer, examiner)
 
 ## License
 

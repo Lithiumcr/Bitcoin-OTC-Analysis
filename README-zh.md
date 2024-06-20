@@ -1,9 +1,7 @@
-### README-zh.md
+# 比特币 OTC 信任网络分析
 
 [![Languages](https://img.shields.io/badge/English-en-004791.svg)](README.md)
-[![GPLv3 license](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)](LICENCE.txt)
-
-# 比特币 OTC 信任网络分析
+[![GPLv3 licence](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)](LICENSE)
 
 该项目旨在使用数据挖掘技术分析比特币 OTC 信任网络。研究比较了经典线性回归方法（如交替最小二乘法（ALS））与先进机器学习模型（特别是深度学习方法）的性能。使用的数据集来自公开可用的斯坦福网络分析项目（SNAP）。
 
@@ -36,7 +34,7 @@
 
 ### 交替最小二乘法（ALS）
 
-ALS 是一种用于推荐系统矩阵分解的经典线性回归方法。它将用户和项目投影到一个k维空间，通过潜在特征向量的内积来近似评分。理论推导、程序实现、结果分析等详见deliverables目录下的项目报告。
+ALS 是一种用于推荐系统矩阵分解的经典线性回归方法。它将用户和项目投影到一个k维空间，通过潜在特征向量的内积来近似评分。理论推导、程序实现、结果分析等详见deliverables目录下的[项目报告](./deliverables/ID2211_Project_Group5.pdf)。
 
 ### 深度学习模型
 
@@ -61,6 +59,16 @@ ALS 是一种用于推荐系统矩阵分解的经典线性回归方法。它将�
 ## 未来工作
 
 未来的研究计划使用 SMOTE 或 GAN 等技术解决数据不平衡问题，增强模型的可扩展性，并进行成本效益分析以用于实际应用。
+
+## 评价
+
+> - 6 月 17 日下午 1:34
+> 
+> 报告不错！结果部分可以改进。除了 MSE 之外，还可以包含一些其他评估指标来比较您的方法 + 使用置信区间（表 3） - Rémi Bourgerie（助教）
+> 
+> - 6 月 17 日下午 1:34
+> 
+> 由于从“个人贡献”部分可以看出您是主要协调员并监督该项目的所有部分，因此我们将为您的努力给予最高分。 - Sarunas Girdzijauskas（主讲教师、考官）
 
 ## 许可证
 
