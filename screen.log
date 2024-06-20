@@ -1,0 +1,60 @@
+Graph construction completed.
+Calculating best minimal value for power law fit
+Positive In-Degree Distribution - Power law alpha: 2.3042680098871755, sigma: 0.060745817306265534
+No data for Negative In-Degree Distribution
+Calculating best minimal value for power law fit
+Positive Out-Degree Distribution - Power law alpha: 2.134628647865975, sigma: 0.04683113614579056
+No data for Negative Out-Degree Distribution
+Power law fit completed.
+Average Weighted Signed Clustering Coefficient: 0.2865414814722228
+Processed 0 edges for coefficients calculation.
+Processed 1024 edges for coefficients calculation.
+Processed 2048 edges for coefficients calculation.
+Processed 3072 edges for coefficients calculation.
+Processed 4096 edges for coefficients calculation.
+Processed 5120 edges for coefficients calculation.
+Processed 6144 edges for coefficients calculation.
+Processed 7168 edges for coefficients calculation.
+Processed 8192 edges for coefficients calculation.
+Processed 9216 edges for coefficients calculation.
+Processed 10240 edges for coefficients calculation.
+Processed 11264 edges for coefficients calculation.
+Processed 12288 edges for coefficients calculation.
+Processed 13312 edges for coefficients calculation.
+Processed 14336 edges for coefficients calculation.
+Processed 15360 edges for coefficients calculation.
+Processed 16384 edges for coefficients calculation.
+Processed 17408 edges for coefficients calculation.
+Processed 18432 edges for coefficients calculation.
+Processed 19456 edges for coefficients calculation.
+Processed 20480 edges for coefficients calculation.
+Processed 21504 edges for coefficients calculation.
+Processed 22528 edges for coefficients calculation.
+Processed 23552 edges for coefficients calculation.
+Processed 24576 edges for coefficients calculation.
+Processed 25600 edges for coefficients calculation.
+Processed 26624 edges for coefficients calculation.
+Processed 27648 edges for coefficients calculation.
+Processed 28672 edges for coefficients calculation.
+Processed 29696 edges for coefficients calculation.
+Processed 30720 edges for coefficients calculation.
+Processed 31744 edges for coefficients calculation.
+Processed 32768 edges for coefficients calculation.
+Processed 33792 edges for coefficients calculation.
+Processed 34816 edges for coefficients calculation.
+35591
+Processed all edges for coefficients calculation.
+Coefficients calculation completed.
+C:\Users\lithi\AppData\Local\Programs\Python\Python311\Lib\site-packages\implicit\cpu\als.py:95: RuntimeWarning: OpenBLAS is configured to use 16 threads. It is highly recommended to disable its internal threadpool by setting the environment variable 'OPENBLAS_NUM_THREADS=1' or by calling 'threadpoolctl.threadpool_limits(1, "blas")'. Having OpenBLAS use a threadpool can lead to severe performance issues here.
+  check_blas_config()
+C:\Users\lithi\AppData\Local\Programs\Python\Python311\Lib\site-packages\implicit\utils.py:164: ParameterWarning: Method expects CSR input, and was passed csc_matrix instead. Converting to CSR took 0.0 seconds
+  warnings.warn(
+100%|████████████████████████████████████████████████████████████████████████████████| 100/100 [00:34<00:00,  2.91it/s]
+Best Accuracy: 0.9467015059563947
+Best Precision: 0.9434493870426071
+Best Recall: 0.7480098660238331
+Best Parameters: {'factors': 50, 'iterations': 100, 'regularization': 0.01}
+Best Model: <implicit.cpu.als.AlternatingLeastSquares object at 0x000001F3347F2890>
+Done with Symbol Prediction!
+Mean Squared Error: 0.06337563686829116
+Combined Mean Squared Error: 0.12148416642140776
