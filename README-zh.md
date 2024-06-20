@@ -3,6 +3,13 @@
 [![Languages](https://img.shields.io/badge/English-en-004791.svg)](README.md)
 [![GPLv3 licence](https://img.shields.io/badge/license-GPLv3-lightgrey.svg)](LICENSE)
 
+> 6 月 17 日下午 1:34
+> 报告不错！结果部分可以改进。除了 MSE 之外，还可以包含一些其他评估指标来比较您的方法 + 使用置信区间（表 3）
+> - Rémi Bourgerie（助教）
+> 6 月 17 日下午 1:34
+> 由于从“个人贡献”部分可以看出您是主要协调员并监督该项目的所有部分，因此我们将为您的努力给予最高分。
+> - Sarunas Girdzijauskas（主讲教师、考官）
+
 该项目旨在使用数据挖掘技术分析比特币 OTC 信任网络。研究比较了经典线性回归方法（如交替最小二乘法（ALS））与先进机器学习模型（特别是深度学习方法）的性能。使用的数据集来自公开可用的斯坦福网络分析项目（SNAP）。
 
 ## 项目概述
