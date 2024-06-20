@@ -34,7 +34,7 @@ The results indicate that while deep learning models achieve higher accuracy, th
 
 ### Alternating Least Squares (ALS)
 
-ALS is a classical linear regression method used for matrix factorization in recommendation systems. It projects users and items into a k-dimensional space, approximating the ratings through inner product of latent feature vectors. For details on theoretical derivation, program implementation, and result analysis, please refer to the project report under the deliverables directory.
+ALS is a classical linear regression method used for matrix factorization in recommendation systems. It projects users and items into a k-dimensional space, approximating the ratings through inner product of latent feature vectors. For details on theoretical derivation, program implementation, and result analysis, please refer to the [project report](./deliverables/ID2211_Project_Group5.pdf) under the deliverables directory.
 
 ### Deep Learning Models
 
