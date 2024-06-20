@@ -63,9 +63,11 @@ Future research will address data imbalances using techniques like SMOTE or GANs
 ## Evaluation
 
 > - Jun 17 at 1:34pm
+> 
 > Good report! The results part could have been improved. It could have been nice to include some more evaluation metrics other than MSE to compare your methods + use confidence intervals (table 3) - Rémi Bourgerie (teaching assistant)
 > 
 > - Jun 17 at 1:34pm
+> 
 > Since it is visible from the "Individual Contribution" section that you were the main coordinator and were overseeing all parts of this project, we will give you maximum points for this effort. - Sarunas Girdzijauskas (lecturer, examiner)
 
 ## License
