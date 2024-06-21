@@ -15,8 +15,8 @@
 
 我们采用了两种主要方法：
 
-1. **交替最小二乘法（ALS）**
-2. **深度学习模型**（Model R 和 Transformers）
+1. **交替最小二乘法**（ALS，详见[als.py](als.py)）
+2. **深度学习模型**（Model R 和 Transformers，详见[bitcoin_otc_torch.py](bitcoin_otc_torch.py)）
 
 ### 数据预处理
 

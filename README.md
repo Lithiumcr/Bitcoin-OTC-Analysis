@@ -15,8 +15,8 @@ The primary goal is to predict trust relationships within the Bitcoin OTC networ
 
 Our approach involves two main methodologies:
 
-1. **Alternating Least Squares (ALS)**
-2. **Deep Learning Models** (Model R and Transformers)
+1. **Alternating Least Squares** (ALS, q.v. [als.py](als.py))
+2. **Deep Learning Models** (Model R and Transformers, q.v. [bitcoin_otc_torch.py](bitcoin_otc_torch.py))
 
 ### Data Preprocessing
 
