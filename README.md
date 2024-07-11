@@ -15,8 +15,8 @@ The primary goal is to predict trust relationships within the Bitcoin OTC networ
 
 Our approach involves two main methodologies:
 
-1. **Alternating Least Squares (ALS)**
-2. **Deep Learning Models** (Model R and Transformers)
+1. **Alternating Least Squares** (ALS, q.v. [als.py](als.py))
+2. **Deep Learning Models** (Model R and Transformers, q.v. [bitcoin_otc_torch.py](bitcoin_otc_torch.py))
 
 ### Data Preprocessing
 
@@ -53,8 +53,8 @@ The study demonstrates that deep learning models outperform ALS in terms of pred
 
 - **Changrong Li (李昶融)**: Project coordination, ALS work (literature research, theoretical derivation, development, deployment, result analysis, performance optimisation), report writing (full-text quality control, title, data processing, ALS chapters, appendix).
 - **Mānūśrī Tyāgī (मांनुश्री त्यागी)**: Initial proposal frame, ALS work with Changrong Li (development of 3 metrics), summary generation.
-- **Zhiqiang Yu (余志强)**: Theoretical research, literature review, validation of deep learning methods.
-- **Ziyun Pan (潘梓韫)**: Application of deep learning methods, data preprocessing, and dataset splitting.
+- **Zhiqiang Yu (余志强)**: Theoretical research, literature review, validation of deep learning methods, verifying the accuracy and effectiveness of deep learning methods in collaboration with Ziyun, report writing (introduction, methods, machine learning section, discussion, conclusion).
+- **Ziyun Pan (潘梓韫)**: Application of deep learning methods, data preprocessing, and dataset splitting, report writing (introduction, methods, machine learning section, discussion, conclusion).
 
 ## Future Work
 
